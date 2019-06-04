@@ -39,9 +39,15 @@ class PasswordPolicyService implements PasswordPolicyServiceInterface
     ): ?PasswordHistoryInterface {
         $history = $entity->getPasswordHistory();
 
+        //Creating current password as history item to check against it too.
+        $currentPasswordHistoryItem = new ParticipantPasswordHistory();
+        $currentPasswordHistoryItem->setParticipant($entity);
+        $currentPasswordHistoryItem->setPassword($entity->getPassword());
+        $currentPasswordHistoryItem->setCreatedAt($entity->getPasswordChangedAt());
+
         $encoder = $this->getEncoder($entity);
 
-        foreach ($history as $passwordHistory) {
+        foreach (array_merge($history, [$currentPasswordHistoryItem]) as $passwordHistory) {
             if ($encoder->isPasswordValid($passwordHistory->getPassword(), $password, $passwordHistory->getSalt())) {
                 return $passwordHistory;
             }
