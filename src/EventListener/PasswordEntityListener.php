@@ -100,10 +100,6 @@ class PasswordEntityListener
         HasPasswordPolicyInterface $entity,
         ?string $oldPassword
     ): ?PasswordHistoryInterface {
-        if (is_null($oldPassword) || $oldPassword === '') {
-            $oldPassword = $entity->getPassword();
-        }
-
         if (!$oldPassword) {
             return null;
         }
