@@ -1,14 +1,13 @@
 <?php
-
+declare(strict_types=1);
 
 namespace Despark\PasswordPolicyBundle\EventListener;
-
 
 use Despark\PasswordPolicyBundle\Service\PasswordExpiryServiceInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class PasswordExpiryListener
 {
@@ -17,8 +16,9 @@ class PasswordExpiryListener
      * @var PasswordExpiryServiceInterface
      */
     private $passwordExpiryService;
+
     /**
-     * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
+     * @var SessionInterface
      */
     private $session;
 
@@ -34,8 +34,8 @@ class PasswordExpiryListener
 
     /**
      * PasswordExpiryListener constructor.
-     * @param \Despark\PasswordPolicyBundle\Service\PasswordExpiryServiceInterface $passwordExpiryService
-     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface $session
+     * @param PasswordExpiryServiceInterface $passwordExpiryService
+     * @param SessionInterface $session
      * @param string $errorMessageType
      * @param string $errorMessage
      */
@@ -51,7 +51,7 @@ class PasswordExpiryListener
         $this->errorMessage = $errorMessage;
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         if (!$event->isMasterRequest()) {
             return;
