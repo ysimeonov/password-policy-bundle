@@ -45,30 +45,11 @@ trait PasswordHistoryTrait
     }
 
     /**
-     * @return \DateTime|null
+     * @return \DateTimeInterface|null
      */
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime|null $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function updatedTimestamps()
-    {
-
-        if ($this->getCreatedAt() == null) {
-            $this->setCreatedAt(new \DateTime('now'));
-        }
     }
 
     /**
@@ -87,4 +68,11 @@ trait PasswordHistoryTrait
         $this->salt = $salt;
     }
 
+    /**
+     * @param \DateTimeInterface $dateTime
+     */
+    public function setCreatedAt(\DateTimeInterface $dateTime): void
+    {
+        $this->createdAt = $dateTime;
+    }
 }

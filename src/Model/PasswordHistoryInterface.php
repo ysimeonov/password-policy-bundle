@@ -29,14 +29,12 @@ interface PasswordHistoryInterface
     public function setSalt(?string $salt);
 
     /**
-     * @return \DateTime
+     * @return \DateTimeInterface
      */
-    public function getCreatedAt(): ?\DateTime;
+    public function getCreatedAt(): ?\DateTimeInterface;
 
     /**
-     * @param \DateTime $dateTime
-     * @return \DateTime|null
+     * @param \DateTimeInterface $dateTime
      */
-    public function setCreatedAt(\DateTime $dateTime): void;
-
+    public function setCreatedAt(\DateTimeInterface $dateTime): void;
 }
