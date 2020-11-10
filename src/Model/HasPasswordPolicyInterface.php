@@ -1,8 +1,7 @@
 <?php
-
+declare(strict_types=1);
 
 namespace Despark\PasswordPolicyBundle\Model;
-
 
 use Doctrine\Common\Collections\Collection;
 
@@ -18,22 +17,22 @@ interface HasPasswordPolicyInterface
     public function getId();
 
     /**
-     * @return \DateTime
+     * @return \DateTimeInterface
      */
-    public function getPasswordChangedAt(): ?\DateTime;
+    public function getPasswordChangedAt(): ?\DateTimeInterface;
 
     /**
-     * @param \DateTime $dateTime
+     * @param \DateTimeInterface $dateTime
      */
-    public function setPasswordChangedAt(\DateTime $dateTime): void;
+    public function setPasswordChangedAt(\DateTimeInterface $dateTime): void;
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection|PasswordHistoryInterface[]
      */
     public function getPasswordHistory(): Collection;
 
     /**
-     * @param \Despark\PasswordPolicyBundle\Model\PasswordHistoryInterface $passwordHistory
+     * @param PasswordHistoryInterface $passwordHistory
      */
     public function addPasswordHistory(PasswordHistoryInterface $passwordHistory): void;
 
@@ -45,6 +44,6 @@ interface HasPasswordPolicyInterface
     /**
      * @return string|null The salt
      */
-    public function getSalt();
+    public function getSalt(): ?string;
 
 }
