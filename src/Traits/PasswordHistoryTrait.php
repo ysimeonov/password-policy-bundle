@@ -23,8 +23,8 @@ trait PasswordHistoryTrait
     private $salt;
 
     /**
-     * @var \DateTime|null
-     * @ORM\Column(type="datetime")
+     * @var \DateTimeInterface|null
+     * @ORM\Column(name="created_at", type="datetimetz_immutable")
      */
     private $createdAt;
 
