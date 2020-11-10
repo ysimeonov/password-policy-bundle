@@ -6,8 +6,8 @@ namespace Despark\PasswordPolicyBundle\Service;
 use App\Entity\UserPasswordHistory;
 use Despark\PasswordPolicyBundle\Model\HasPasswordPolicyInterface;
 use Despark\PasswordPolicyBundle\Model\PasswordHistoryInterface;
-use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\Encoder\NativePasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -56,16 +56,16 @@ class PasswordPolicyService implements PasswordPolicyServiceInterface
     }
 
     /**
-     * @param \Despark\PasswordPolicyBundle\Model\HasPasswordPolicyInterface $entity
-     * @return \Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface
+     * @param HasPasswordPolicyInterface $entity
+     * @return PasswordEncoderInterface
      */
-    public function getEncoder(HasPasswordPolicyInterface $entity): PasswordEncoderInterface
+    public function getEncoder(HasPasswordPolicyInterface $entity)
     {
         if ($entity instanceof UserInterface) {
             return $this->encoderFactory->getEncoder($entity);
-        } else {
-            return new BCryptPasswordEncoder(3);
         }
+
+        return new NativePasswordEncoder(3);
     }
 
 }
