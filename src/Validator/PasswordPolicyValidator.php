@@ -1,16 +1,15 @@
 <?php
-
+declare(strict_types=1);
 
 namespace Despark\PasswordPolicyBundle\Validator;
-
 
 use Carbon\Carbon;
 use Despark\PasswordPolicyBundle\Exceptions\ValidationException;
 use Despark\PasswordPolicyBundle\Model\HasPasswordPolicyInterface;
 use Despark\PasswordPolicyBundle\Service\PasswordPolicyServiceInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PasswordPolicyValidator extends ConstraintValidator
 {
@@ -20,7 +19,7 @@ class PasswordPolicyValidator extends ConstraintValidator
      */
     private $passwordPolicyService;
     /**
-     * @var \Symfony\Component\Translation\TranslatorInterface
+     * @var TranslatorInterface
      */
     private $translator;
 
@@ -36,7 +35,7 @@ class PasswordPolicyValidator extends ConstraintValidator
      * @param mixed $value The value that should be validated
      * @param Constraint $constraint The constraint for the validation
      * @return bool
-     * @throws \Despark\PasswordPolicyBundle\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function validate($value, Constraint $constraint)
     {

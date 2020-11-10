@@ -26,8 +26,8 @@ class Configuration implements ConfigurationInterface
 
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('password_policy');
+        $treeBuilder = new TreeBuilder('password_policy');
+        $rootNode = $treeBuilder->getRootNode();
 
         // @formatter:off
         $rootNode->fixXmlConfig('entity')
@@ -36,6 +36,7 @@ class Configuration implements ConfigurationInterface
                         ->useAttributeAsKey('class')
                         ->cannotBeEmpty()
                         ->isRequired()
+                        ->defaultValue([])
                         ->arrayPrototype()
                             ->addDefaultsIfNotSet()
                             ->children()
