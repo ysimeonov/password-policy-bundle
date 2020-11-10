@@ -130,7 +130,7 @@ class PasswordEntityListener
 
         $history->$userSetter($entity);
         $history->setPassword($oldPassword);
-        $history->setCreatedAt(new \DateTime());
+        $history->setCreatedAt(new \DateTimeImmutable());
         $history->setSalt($entity->getSalt());
 
         $entity->addPasswordHistory($history);
