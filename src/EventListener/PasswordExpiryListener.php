@@ -78,7 +78,7 @@ class PasswordExpiryListener
                 $this->session->getFlashBag()->add($this->errorMessageType, $this->errorMessage);
             }
 
-            if (!$this->redirect) {
+            if (!$this->redirect && in_array('application/json', $request->getAcceptableContentTypes())) {
                 $event->setResponse(new Response('Password should be updated.', 423));
             } else {
                 $event->setResponse(new RedirectResponse($lockedUrl));
