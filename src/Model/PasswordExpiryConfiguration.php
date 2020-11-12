@@ -29,7 +29,10 @@ class PasswordExpiryConfiguration
      */
     private $lockedRouteParams;
 
-    protected bool $redirect;
+    /**
+     * @var bool
+     */
+    protected $redirect;
 
     /**
      * PasswordExpiryConfiguration constructor.
