@@ -5,12 +5,14 @@ namespace Despark\PasswordPolicyBundle\EventListener;
 
 use Despark\PasswordPolicyBundle\Service\PasswordExpiryServiceInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class PasswordExpiryListener
 {
+    protected bool $redirect;
 
     /**
      * @var PasswordExpiryServiceInterface
@@ -38,17 +40,20 @@ class PasswordExpiryListener
      * @param SessionInterface $session
      * @param string $errorMessageType
      * @param string $errorMessage
+     * @param bool $redirect
      */
     public function __construct(
         PasswordExpiryServiceInterface $passwordExpiryService,
         SessionInterface $session,
         string $errorMessageType,
-        string $errorMessage
+        string $errorMessage,
+        bool $redirect = true
     ) {
         $this->passwordExpiryService = $passwordExpiryService;
         $this->session = $session;
         $this->errorMessageType = $errorMessageType;
         $this->errorMessage = $errorMessage;
+        $this->redirect = $redirect;
     }
 
     public function onKernelRequest(RequestEvent $event)
@@ -72,7 +77,12 @@ class PasswordExpiryListener
             if ($this->session instanceof Session) {
                 $this->session->getFlashBag()->add($this->errorMessageType, $this->errorMessage);
             }
-            $event->setResponse(new RedirectResponse($lockedUrl));
+
+            if (!$this->redirect) {
+                $event->setResponse(new Response('Password should be updated.', 423));
+            } else {
+                $event->setResponse(new RedirectResponse($lockedUrl));
+            }
         }
     }
 

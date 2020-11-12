@@ -59,6 +59,7 @@ class PasswordPolicyExtension extends Extension
                 $settings['lock_route'],
                 $settings['lock_route_params'] ?? [],
                 $settings['excluded_routes'],
+                $config['redirect'] ?? true,
             ]);
 
             $expiryService->addMethodCall('addEntity', [$passwordExpiryConfig]);
@@ -79,7 +80,8 @@ class PasswordPolicyExtension extends Extension
                              'priority' => $config['expiry_listener']['priority'],
                          ])
                          ->setArgument('$errorMessage', $config['expiry_listener']['error_msg']['text'])
-                         ->setArgument('$errorMessageType', $config['expiry_listener']['error_msg']['type']);
+                         ->setArgument('$errorMessageType', $config['expiry_listener']['error_msg']['type'])
+                         ->setArgument('$redirect', $config['expiry_listener']['redirect']);
     }
 
     /**

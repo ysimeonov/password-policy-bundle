@@ -15,6 +15,7 @@ class Configuration implements ConfigurationInterface
     private const DEFAULT_PASSWORDS_TO_REMEMBER = 3;
     private const DEFAULT_EXPIRY_LISTENER_PRIORITY = 0;
     private const DEFAULT_EXPIRY_DAYS = 90;
+    private const DEFAULT_EXPIRY_REDIRECT = true;
     private const DEFAULT_ERROR_MSG = 'Your password expired. You need to change it';
     private const DEFAULT_ERROR_TYPE = 'error';
 
@@ -74,6 +75,10 @@ class Configuration implements ConfigurationInterface
                             ->integerNode('priority')
                                 ->defaultValue(self::DEFAULT_EXPIRY_LISTENER_PRIORITY)
                                 ->treatNullLike(self::DEFAULT_EXPIRY_LISTENER_PRIORITY)
+                            ->end()
+                            ->booleanNode('redirect')
+                                ->defaultValue(self::DEFAULT_EXPIRY_REDIRECT)
+                                ->treatNullLike(self::DEFAULT_EXPIRY_REDIRECT)
                             ->end()
                             ->arrayNode('error_msg')
                             ->addDefaultsIfNotSet()

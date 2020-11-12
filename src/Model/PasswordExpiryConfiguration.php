@@ -8,7 +8,6 @@ use Despark\PasswordPolicyBundle\Exceptions\RuntimeException;
 
 class PasswordExpiryConfiguration
 {
-
     /**
      * @var string
      */
@@ -30,6 +29,8 @@ class PasswordExpiryConfiguration
      */
     private $lockedRouteParams;
 
+    protected bool $redirect;
+
     /**
      * PasswordExpiryConfiguration constructor.
      * @param string $class
@@ -37,13 +38,16 @@ class PasswordExpiryConfiguration
      * @param string $lockRoute
      * @param array $lockedRouteParams
      * @param array $excludedRoutes
+     * @param bool $redirect
+     * @throws RuntimeException
      */
     public function __construct(
         string $class,
         int $expiryDays,
         string $lockRoute,
         array $lockedRouteParams = [],
-        array $excludedRoutes = []
+        array $excludedRoutes = [],
+        bool $redirect = true
     ) {
         if (!is_a($class, HasPasswordPolicyInterface::class, true)) {
             throw new RuntimeException(sprintf('Entity %s must implement %s interface', $class,
@@ -54,6 +58,7 @@ class PasswordExpiryConfiguration
         $this->lockRoute = $lockRoute;
         $this->excludedRoutes = $excludedRoutes;
         $this->lockedRouteParams = $lockedRouteParams;
+        $this->redirect = $redirect;
     }
 
     /**
@@ -94,5 +99,14 @@ class PasswordExpiryConfiguration
     public function getLockedRouteParams(): array
     {
         return $this->lockedRouteParams;
+    }
+
+    /**
+     * Should redirect or return code
+     * @return bool
+     */
+    public function shouldRedirect(): bool
+    {
+        return $this->redirect;
     }
 }
